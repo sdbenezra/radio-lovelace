@@ -37,7 +37,6 @@ const Playlist = (props) => {
         key={i}
         {...track}
         toggleFavorite={props.toggleFavorite}
-        index={i}
       />
     );
   });
