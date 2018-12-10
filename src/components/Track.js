@@ -13,6 +13,11 @@ class Track extends React.Component {
     this.props.toggleFavorite(this.props.id);
   }
 
+  moveToTop = (e) => {
+    console.log("Track Message - Move to top button clicked");
+    this.props.sendToTop(this.props.id);
+  }
+
   render () {
     return (
       <li className="track">
@@ -26,7 +31,7 @@ class Track extends React.Component {
           />
         <p className="track--artist">{this.props.artist}</p>
         <p className="track--playtime">{this.props.playtime}</p>
-        <button
+        <button onClick={this.moveToTop}
           className="track--control track--to-top"
           >
           <span role="img" aria-label="send to top">🔝</span>

@@ -37,6 +37,8 @@ const Playlist = (props) => {
         key={i}
         {...track}
         toggleFavorite={props.toggleFavorite}
+        sendToTop={props.sendToTop}
+        index={i}
       />
     );
   });
@@ -58,6 +60,7 @@ Playlist.propTypes = {
   tracks: PropTypes.array,
   side: PropTypes.string,
   toggleFavorite: PropTypes.func,
+  sendToTop: PropTypes.func,
 }
 
 export default Playlist;
