@@ -18,6 +18,11 @@ class Track extends React.Component {
     this.props.sendToTop(this.props.id);
   }
 
+  changeLists = (e) => {
+    console.log("Track Message - Switch lists button clicked");
+    this.props.switchLists(this.props.id);
+  }
+
   render () {
     return (
       <li className="track">
@@ -36,7 +41,7 @@ class Track extends React.Component {
           >
           <span role="img" aria-label="send to top">🔝</span>
         </button>
-        <button
+        <button onClick={this.changeLists}
           className="track--control track--switch"
           >
           <span role="img" aria-label="switch lists">↔</span>

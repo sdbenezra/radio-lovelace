@@ -38,6 +38,7 @@ const Playlist = (props) => {
         {...track}
         toggleFavorite={props.toggleFavorite}
         sendToTop={props.sendToTop}
+        switchLists={props.switchLists}
         index={i}
       />
     );

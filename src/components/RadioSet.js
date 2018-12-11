@@ -16,56 +16,85 @@ class RadioSet extends React.Component {
   }
 
   toggleFavorite = (id) => {
-    console.log("RadioSet changeFavorite");
-    if (id < this.state.morningTracks.length) {
+    console.log("RadioSet toggleFavorite");
+    console.log(`${id}`);
+
+    let selectedMorningTrackId = this.state.morningTracks.findIndex(function(track) {
+      return track.id === id;
+    });
+
+    let selectedEveningTrackId = this.state.eveningTracks.findIndex(function(track) {
+      return track.id === id;
+    });
+
+    console.log(`MORNING ${selectedMorningTrackId} EVENING ${selectedEveningTrackId} ID ${id}`);
+
+    if (selectedMorningTrackId >= 0) {
+      console.log(this.state.morningTracks);
       let newTrackList = this.state.morningTracks;
-      let index;
-      newTrackList.forEach((track, i) => {
-        if (track.id === id) {
-          index = i;
-        }
-      })
-      newTrackList[index].favorite = !newTrackList[index].favorite;
+      newTrackList[selectedMorningTrackId].favorite = !newTrackList[selectedMorningTrackId].favorite;
       this.setState({morningTracks: newTrackList});
     } else {
       let newTrackList = this.state.eveningTracks;
-      let index;
-      newTrackList.forEach((track, i) => {
-        if (track.id === id) {
-          index = i;
-        }
-      })
-    newTrackList[index].favorite = !newTrackList[index].favorite;
-    this.setState({eveningTracks: newTrackList});
+      console.log(selectedEveningTrackId);
+      newTrackList[selectedEveningTrackId].favorite = !newTrackList[selectedEveningTrackId].favorite;
+      this.setState({eveningTracks: newTrackList});
     }
   }
 
   sendToTop = (id) => {
     console.log("RadioSet message - Send to top button pressed");
-    if (id < this.state.morningTracks.length) {
+    let selectedMorningTrackId = this.state.morningTracks.findIndex(function(track) {
+      return track.id === id;
+    });
+
+    let selectedEveningTrackId = this.state.eveningTracks.findIndex(function(track) {
+      return track.id === id;
+    });
+
+    if (selectedMorningTrackId >= 0) {
       let newTrackList = this.state.morningTracks;
-      let index;
-      newTrackList.forEach((track, i) => {
-        if (track.id === id) {
-          index = i;
-        }
-      })
-      let selectedSong = newTrackList.splice(index, 1);
+      let selectedSong = newTrackList.splice(selectedMorningTrackId, 1);
       newTrackList.splice(0, 0, selectedSong[0]);
       this.setState({morningTracks: newTrackList});
     } else {
       let newTrackList = this.state.eveningTracks;
-      let index;
-      newTrackList.forEach((track, i) => {
-        if (track.id === id) {
-          index = i;
-        }
-      })
-      let selectedSong = newTrackList.splice(index, 1);
+      let selectedSong = newTrackList.splice(selectedEveningTrackId, 1);
       newTrackList.splice(0, 0, selectedSong[0]);
       this.setState({eveningTracks: newTrackList});
     }
   }
+
+  switchLists = (id) => {
+    console.log("RadioSet message - SwitchLists button pressed");
+
+    let selectedMorningTrackId = this.state.morningTracks.findIndex(function(track) {
+      return track.id === id;
+    });
+
+    let selectedEveningTrackId = this.state.eveningTracks.findIndex(function(track) {
+      return track.id === id;
+    });
+
+    if (selectedMorningTrackId >= 0) {
+      let newTrackList = this.state.eveningTracks;
+      let oldTrackList = this.state.morningTracks;
+
+      let selectedSong = oldTrackList.splice(selectedMorningTrackId, 1);
+      newTrackList.splice(0, 0, selectedSong[0]);
+      this.setState({morningTracks: oldTrackList});
+      this.setState({eveningTracks: newTrackList});
+    } else {
+      let newTrackList = this.state.morningTracks;
+      let oldTrackList = this.state.eveningTracks;
+
+      let selectedSong = oldTrackList.splice(selectedEveningTrackId, 1);
+      newTrackList.splice(0, 0, selectedSong[0]);
+      this.setState({eveningTracks: oldTrackList});
+      this.setState({morningTracks: newTrackList});
+    }
+  }
+
 
 
   render (){
@@ -77,12 +106,14 @@ class RadioSet extends React.Component {
             tracks={this.state.morningTracks}
             toggleFavorite={this.toggleFavorite}
             sendToTop={this.sendToTop}
+            switchLists={this.switchLists}
           />
           <Playlist
             side="Evening"
             tracks={this.state.eveningTracks}
             toggleFavorite={this.toggleFavorite}
             sendToTop={this.sendToTop}
+            switchLists={this.switchLists}
           />
         </section>
       </div>
